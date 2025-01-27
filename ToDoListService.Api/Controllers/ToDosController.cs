@@ -17,7 +17,9 @@ public class ToDosController(IToDoService service, IAuthenticatedUserFactory use
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<ToDoOutputDto>>> ReadAllPendingAsync()
     {
-        throw new NotImplementedException();
+        AuthenticatedUser user = userFactory.BuildAuthenticatedUser(HttpContext);
+        IEnumerable<ToDoOutputDto> result = await service.ReadAllPendingAsync(user);
+        return Ok(result);
     }
 
     [HttpPatch("{id}")]
@@ -27,6 +29,14 @@ public class ToDosController(IToDoService service, IAuthenticatedUserFactory use
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ToDoOutputDto>> PatchAsync(int id, [FromBody] ToDoPatchDto patchDto)
     {
-        throw new NotImplementedException();
+        AuthenticatedUser user = userFactory.BuildAuthenticatedUser(HttpContext);
+
+        if (!ModelState.IsValid)
+        {
+            throw new BadRequestRestException("Invalid input data");
+        }
+
+        ToDoOutputDto result = await service.PatchAsync(id, patchDto, user);
+        return Ok(result);
     }
 }
