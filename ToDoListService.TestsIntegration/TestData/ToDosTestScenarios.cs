@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ToDoListService.Domain.Dtos;
+﻿using ToDoListService.Domain.Dtos;
 using ToDoListService.Domain.Entities;
 
-namespace ToDoListService.TestsIntegration.Scenarios;
+namespace ToDoListService.TestsIntegration.TestData;
 
 public static class ToDosTestScenarios
 {

@@ -6,12 +6,12 @@ using ToDoListService.Domain.Entities;
 using ToDoListService.Framework.Utils.Testcontainers;
 using ToDoListService.Framework.Utils.EntityFrameworkCore;
 using ToDoListService.Infrastructure.Repositories;
-using ToDoListService.TestsIntegration.Scenarios;
+using ToDoListService.TestsIntegration.TestData;
 using System.Net.Http.Headers;
 using System.Net;
 using ToDoListService.Framework.Security.Jwt;
 
-namespace ToDoListService.TestsIntegration.Api.Controllers;
+namespace ToDoListService.TestsIntegration.Controllers;
 
 [Collection("ControllerIntegrationTest")]
 public class ToDosControllerIntegrationTest
