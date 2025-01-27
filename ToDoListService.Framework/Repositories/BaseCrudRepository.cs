@@ -8,17 +8,17 @@ namespace ToDoListService.Framework.Repositories;
 public class BaseCrudRepository<TEntity, TId> : ICrudRepository<TEntity, TId>
     where TEntity : BaseEntity<TId>
 {
-    protected DbContext _appDbContext;
+    protected DbContext _dbContext;
 
     public BaseCrudRepository(DbContext appDbContext)
     {
-        _appDbContext = appDbContext;
+        _dbContext = appDbContext;
     }
     public async Task<TEntity> CreateAsync(TEntity entity)
     {
-        EntityEntry<TEntity> result = await _appDbContext.Set<TEntity>().AddAsync(entity);
+        EntityEntry<TEntity> result = await _dbContext.Set<TEntity>().AddAsync(entity);
         
-        int rowsAffected = await _appDbContext.SaveChangesAsync();
+        int rowsAffected = await _dbContext.SaveChangesAsync();
         if (rowsAffected < 1)
         {
             throw new RepositorySaveChangeFailedException("CreateAsync created no rows");
@@ -29,12 +29,22 @@ public class BaseCrudRepository<TEntity, TId> : ICrudRepository<TEntity, TId>
 
     public async Task<IEnumerable<TEntity>> ReadAllAsync()
     {
-        return await _appDbContext.Set<TEntity>().ToListAsync();
+        return await _dbContext.Set<TEntity>()
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TEntity>> ReadAllAsync(Func<TEntity, bool> condition)
+    {
+        return await _dbContext.Set<TEntity>()
+            .Where(e => condition(e))
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<TEntity> ReadAsync(TId id)
     {
-        TEntity? entityInDb = await _appDbContext.Set<TEntity>().FindAsync(id);
+        TEntity? entityInDb = await _dbContext.Set<TEntity>().FindAsync(id);
         if (entityInDb == null)
         {
             throw new EntityNotFoundException($"Could not find {typeof(TEntity)} with id {id}");
@@ -48,9 +58,9 @@ public class BaseCrudRepository<TEntity, TId> : ICrudRepository<TEntity, TId>
         TEntity entityInDatabase = await ReadAsync(entity.Id);
         entityInDatabase.CopyFrom(entity);
 
-        _appDbContext.Set<TEntity>().Update(entityInDatabase);
+        _dbContext.Set<TEntity>().Update(entityInDatabase);
 
-        int rowsAffected = await _appDbContext.SaveChangesAsync();
+        int rowsAffected = await _dbContext.SaveChangesAsync();
         if (rowsAffected < 1)
         {
             throw new RepositorySaveChangeFailedException("UpdateAsync updated no rows");
@@ -63,9 +73,9 @@ public class BaseCrudRepository<TEntity, TId> : ICrudRepository<TEntity, TId>
     {
         TEntity entityInDatabase = await ReadAsync(id);
 
-        _appDbContext.Set<TEntity>().Remove(entityInDatabase);
+        _dbContext.Set<TEntity>().Remove(entityInDatabase);
 
-        int rowsAffected = await _appDbContext.SaveChangesAsync();
+        int rowsAffected = await _dbContext.SaveChangesAsync();
         if (rowsAffected < 1) 
         {
             throw new RepositorySaveChangeFailedException("DeleteAsync deleted no rows");

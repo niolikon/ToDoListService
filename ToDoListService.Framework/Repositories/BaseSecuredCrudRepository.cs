@@ -35,7 +35,18 @@ public class BaseSecuredCrudRepository<TEntity, TId, TUser> : ISecuredCrudReposi
 
     public async Task<IEnumerable<TEntity>> ReadAllAsync(TUser owner)
     {
-        return await _dbContext.Set<TEntity>().Where(e => e.Owner.Equals(owner)).ToListAsync();
+        return await _dbContext.Set<TEntity>()
+            .Where(e => e.Owner.Equals(owner))
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TEntity>> ReadAllAsync(TUser owner, Func<TEntity, bool> condition)
+    {
+        return await _dbContext.Set<TEntity>()
+            .Where(e => e.Owner.Equals(owner) && condition(e))
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<TEntity> ReadAsync(TId id, TUser owner)

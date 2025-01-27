@@ -28,7 +28,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options): IdentityDbCon
         builder.Entity<User>()
             .HasMany(user => user.ToDos)
             .WithOne(todo => todo.Owner)
-            .HasForeignKey(todo => todo.UserId)
+            .HasForeignKey("UserId")
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
