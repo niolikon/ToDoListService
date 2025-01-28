@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ToDoListService.Domain.Dtos;
+﻿using ToDoListService.Domain.Dtos;
 using ToDoListService.Domain.Entities;
 
-namespace ToDoListService.TestsIntegration.Scenarios;
+namespace ToDoListService.TestsIntegration.TestData;
 
-public static class ToDosTestScenarios
+public static class ToDoTestScenarios
 {
     public static UserLoginDto EmptyOwnerDto = new()
     {
@@ -30,20 +29,19 @@ public static class ToDosTestScenarios
         }
     }
 
-    public static UserLoginDto SingleOwnerDto = new()
+    public static UserLoginDto SingleCompletedOwnerDto = new()
     {
         Username = "TestUsername",
         Password = "7357tP455w0rd!"
     };
 
-    public static object[] SingleToDo
+    public static object[] SingleCompleted
     {
         get
         {
             ToDo todo = new () { 
-                Id = 1, 
-                Title = "Title text",
-                Description = "Description long text",
+                Title = "Short title",
+                Description = "Short description adding details",
                 IsCompleted = true,
                 DueDate = DateOnly.FromDateTime(DateTime.Now),
 
@@ -51,8 +49,8 @@ public static class ToDosTestScenarios
 
             User owner = new ()
             {
-                UserName = SingleOwnerDto.Username,
-                PasswordHash = SingleOwnerDto.Password,
+                UserName = SingleCompletedOwnerDto.Username,
+                PasswordHash = SingleCompletedOwnerDto.Password,
                 Name = "Name",
                 Surname = "Surname",
                 Email = "name.surname@example.com"

@@ -8,7 +8,7 @@ public class ToDoOutputDto : BaseOutputDto<int>
 
     public string Description { get; set; }
 
-    public bool IsCompleted { get; set; } = false;
+    public bool? IsCompleted { get; set; }
 
-    public DateOnly? DueDate { get; set; } = null;
+    public DateOnly? DueDate { get; set; }
 }

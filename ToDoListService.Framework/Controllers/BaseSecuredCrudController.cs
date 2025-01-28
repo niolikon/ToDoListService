@@ -33,7 +33,7 @@ public class BaseSecuredCrudController<TId, TInputDto, TOutputDto> : ControllerB
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public virtual async Task<ActionResult<TOutputDto>> Create([FromBody] TInputDto inputDto)
     {
-        AuthenticatedUser user = _userFactory.CreateAuthenticatedUser(HttpContext);
+        AuthenticatedUser user = _userFactory.BuildAuthenticatedUser(HttpContext);
 
         if (!ModelState.IsValid)
         {
@@ -57,7 +57,7 @@ public class BaseSecuredCrudController<TId, TInputDto, TOutputDto> : ControllerB
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public virtual async Task<ActionResult<IEnumerable<TOutputDto>>> ReadAllAsync()
     {
-        AuthenticatedUser user = _userFactory.CreateAuthenticatedUser(HttpContext);
+        AuthenticatedUser user = _userFactory.BuildAuthenticatedUser(HttpContext);
         IEnumerable<TOutputDto> result = await _service.ReadAllAsync(user);
         return Ok(result);
     }
@@ -70,7 +70,7 @@ public class BaseSecuredCrudController<TId, TInputDto, TOutputDto> : ControllerB
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<ActionResult<TOutputDto>> ReadAsync(TId id)
     {
-        AuthenticatedUser user = _userFactory.CreateAuthenticatedUser(HttpContext);
+        AuthenticatedUser user = _userFactory.BuildAuthenticatedUser(HttpContext);
         TOutputDto result = await _service.ReadAsync(id, user);
         return Ok(result);
     }
@@ -84,7 +84,7 @@ public class BaseSecuredCrudController<TId, TInputDto, TOutputDto> : ControllerB
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public virtual async Task<ActionResult<TOutputDto>> UpdateAsync(TId id, [FromBody] TInputDto inputDto)
     {
-        AuthenticatedUser user = _userFactory.CreateAuthenticatedUser(HttpContext);
+        AuthenticatedUser user = _userFactory.BuildAuthenticatedUser(HttpContext);
 
         if (!ModelState.IsValid)
         {
@@ -104,7 +104,7 @@ public class BaseSecuredCrudController<TId, TInputDto, TOutputDto> : ControllerB
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public virtual async Task<ActionResult> DeleteAsync(TId id)
     {
-        AuthenticatedUser user = _userFactory.CreateAuthenticatedUser(HttpContext);
+        AuthenticatedUser user = _userFactory.BuildAuthenticatedUser(HttpContext);
         await _service.DeleteAsync(id, user);
         return NoContent();
     }

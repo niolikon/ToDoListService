@@ -4,5 +4,5 @@ namespace ToDoListService.Framework.Security.Authentication;
 
 public interface IAuthenticatedUserFactory
 {
-    AuthenticatedUser CreateAuthenticatedUser(HttpContext context);
+    AuthenticatedUser BuildAuthenticatedUser(HttpContext context);
 }
