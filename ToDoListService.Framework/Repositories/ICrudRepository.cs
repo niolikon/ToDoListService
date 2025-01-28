@@ -1,4 +1,5 @@
-﻿using ToDoListService.Framework.Entities;
+﻿using System.Linq.Expressions;
+using ToDoListService.Framework.Entities;
 
 namespace ToDoListService.Framework.Repositories;
 
@@ -7,7 +8,7 @@ public interface ICrudRepository<TEntity, TId>
 {
     Task<TEntity> CreateAsync(TEntity entity);
     Task<IEnumerable<TEntity>> ReadAllAsync();
-    Task<IEnumerable<TEntity>> ReadAllAsync(Func<TEntity, bool> condition);
+    Task<IEnumerable<TEntity>> ReadAllAsync(Expression<Func<TEntity, bool>> predicate);
     Task<TEntity> ReadAsync(TId id);
     Task<TEntity> UpdateAsync(TEntity entity);
     Task DeleteAsync(TId id);

@@ -68,11 +68,6 @@ public static class ToDoTestData
     public static ToDo TODO_COMPLETED => TODO_3;
     #endregion
 
-    #region ToDoPatchDto
-    public static ToDoPatchDto TODO_PATCH_COMPLETED => new ToDoPatchDto() { IsCompleted = true };
-    public static ToDoPatchDto TODO_PATCH_INCOMPLETE => new ToDoPatchDto() { IsCompleted = false };
-    #endregion
-
     #region ToDoInputDto
     public static ToDoInputDto TODO_1_INPUT => new ToDoInputDto()
     {
@@ -105,6 +100,11 @@ public static class ToDoTestData
         IsCompleted = false,
         DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(15))
     };
+    #endregion
+
+    #region ToDoPatchDto
+    public static ToDoPatchDto TODO_PATCH_COMPLETED => new ToDoPatchDto() { IsCompleted = true };
+    public static ToDoPatchDto TODO_PATCH_INCOMPLETE => new ToDoPatchDto() { IsCompleted = false };
     #endregion
 
     #region ToDoOutputDto

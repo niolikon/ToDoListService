@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 using ToDoListService.Framework.Entities;
 using ToDoListService.Framework.Exceptions.Persistence;
 
@@ -34,10 +35,10 @@ public class BaseCrudRepository<TEntity, TId> : ICrudRepository<TEntity, TId>
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<TEntity>> ReadAllAsync(Func<TEntity, bool> condition)
+    public async Task<IEnumerable<TEntity>> ReadAllAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return await _dbContext.Set<TEntity>()
-            .Where(e => condition(e))
+            .Where(predicate)
             .AsNoTracking()
             .ToListAsync();
     }

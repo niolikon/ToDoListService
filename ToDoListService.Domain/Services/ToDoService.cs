@@ -17,7 +17,7 @@ public class ToDoService : BaseSecuredCrudService<ToDo, int, ToDoInputDto, ToDoO
     public async Task<IEnumerable<ToDoOutputDto>> ReadAllPendingAsync(AuthenticatedUser user)
     {
         User owner = await GetOwner(user);
-        IEnumerable<ToDo> entities = await _repository.ReadAllAsync(owner, e => e.IsCompleted ?? false);
+        IEnumerable<ToDo> entities = await _repository.ReadAllAsync(owner, e => (e.IsCompleted == null) || (e.IsCompleted == false));
         return entities.Select(_mapper.mapToOutputDto).ToList();
     }
 

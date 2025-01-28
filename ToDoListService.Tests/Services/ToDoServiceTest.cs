@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
+using System.Linq.Expressions;
 using ToDoListService.Domain.Dtos;
 using ToDoListService.Domain.Entities;
 using ToDoListService.Domain.Mappers;
@@ -46,7 +45,7 @@ public class ToDoServiceTest
 
         _usermanagerMock.Setup(usermanager => usermanager.FindByIdAsync(authenticatedUser.Id))
             .ReturnsAsync(owner);
-        _todoRepositoryMock.Setup(repository => repository.ReadAllAsync(owner, It.IsAny<Func<ToDo, bool>>()))
+        _todoRepositoryMock.Setup(repository => repository.ReadAllAsync(owner, It.IsAny<Expression<Func<ToDo, bool>>>()))
             .ReturnsAsync([ToDoTestData.TODO_1, ToDoTestData.TODO_2]);
         _todoMapperMock.Setup(mapper => mapper.mapToOutputDto(It.IsAny<ToDo>()))
             .Returns((new Mock<ToDoOutputDto>()).Object);
@@ -54,7 +53,7 @@ public class ToDoServiceTest
         await _service.ReadAllPendingAsync(authenticatedUser);
 
         _todoRepositoryMock.Verify(repository =>
-            repository.ReadAllAsync(owner, It.IsAny<Func<ToDo, bool>>()),
+            repository.ReadAllAsync(owner, It.IsAny<Expression<Func<ToDo, bool>>>()),
             Times.Once);
     }
 
