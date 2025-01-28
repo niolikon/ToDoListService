@@ -52,6 +52,7 @@ public class ToDosControllerIntegrationTest
     }
 
     [Fact]
+    [Trait("Story", "TLS1")]
     public async Task Should_Support_Marking_ToDo_WorkFlow()
     {
         using var seederCleaner = GetSeederCleaner();
