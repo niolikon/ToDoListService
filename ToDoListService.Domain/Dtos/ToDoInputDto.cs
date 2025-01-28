@@ -14,5 +14,5 @@ public class ToDoInputDto
 
     public bool IsCompleted { get; set; } = false;
 
-    public DateOnly? DueDate { get; set; } = null;
+    public DateOnly DueDate { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddDays(15));
 }

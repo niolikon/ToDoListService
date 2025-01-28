@@ -6,7 +6,7 @@ namespace ToDoListService.Framework.Security.Authentication;
 
 public class AuthenticatedUserFactory : IAuthenticatedUserFactory
 {
-    public AuthenticatedUser CreateAuthenticatedUser(HttpContext context)
+    public AuthenticatedUser BuildAuthenticatedUser(HttpContext context)
     {
         ClaimsPrincipal principal = context.User;
         if (principal.Identity == null || !principal.Identity.IsAuthenticated)

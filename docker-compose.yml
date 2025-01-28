@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    image: todolistservice-api:latest
+    container_name: todolistservice-backend
+    ports:
+      - "5252:5152"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_URLS=http://+:5152
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ToDoListService;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true;MultipleActiveResultSets=true
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: todolistservice-sqlserver
+    ports:
+      - "1533:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:

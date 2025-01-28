@@ -41,13 +41,8 @@ public class ContainerizedWebApplicationFactory<TStartup, TDbContext> : WebAppli
         return (TService)_serviceScope.ServiceProvider.GetRequiredService(typeof(TService)) ??
             throw new NullReferenceException($"{typeof(TService)} service could not be found");
     }
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
 
-    protected virtual void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
     {
         _serviceScope?.Dispose();
     }

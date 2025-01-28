@@ -32,6 +32,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<ControllerAdviceMiddleware>();
+app.EnsureDatabaseCreated();
 
 app.MapControllers();
 

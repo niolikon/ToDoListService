@@ -1,6 +1,6 @@
 ﻿using ToDoListService.Framework.Utils.Testcontainers;
 
-namespace ToDoListService.TestsIntegration.Api.Controllers;
+namespace ToDoListService.TestsIntegration.Controllers;
 
 [CollectionDefinition("ControllerIntegrationTest")]
 public class ControllerIntegrationTestCollection : ICollectionFixture<ContainerizedSqlServerFixture>

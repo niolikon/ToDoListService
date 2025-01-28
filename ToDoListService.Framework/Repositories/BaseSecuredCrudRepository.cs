@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 using ToDoListService.Framework.Entities;
 using ToDoListService.Framework.Exceptions.Persistence;
 
@@ -35,7 +36,19 @@ public class BaseSecuredCrudRepository<TEntity, TId, TUser> : ISecuredCrudReposi
 
     public async Task<IEnumerable<TEntity>> ReadAllAsync(TUser owner)
     {
-        return await _dbContext.Set<TEntity>().Where(e => e.Owner.Equals(owner)).ToListAsync();
+        return await _dbContext.Set<TEntity>()
+            .Where(e => e.Owner.Equals(owner))
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TEntity>> ReadAllAsync(TUser owner, Expression<Func<TEntity, bool>> predicate)
+    {
+        return await _dbContext.Set<TEntity>()
+            .Where(e => e.Owner.Equals(owner))
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<TEntity> ReadAsync(TId id, TUser owner)

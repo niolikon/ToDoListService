@@ -5,19 +5,15 @@ namespace ToDoListService.Domain.Entities;
 
 public class ToDo : BaseOwnedEntity<int, User>
 {
-    [Required]
     [MaxLength(30)]
-    public required string Title { get; set; }
+    public string Title { get; set; }
 
-    [Required]
     [MaxLength(250)]
-    public required string Description { get; set; }
+    public string Description { get; set; }
 
-    public bool IsCompleted { get; set; } = false;
+    public bool? IsCompleted { get; set; } = null;
 
     public DateOnly? DueDate { get; set; } = null;
-
-    public string UserId { get; set; }
 
     public override void CopyFrom(BaseOwnedEntity<int, User> other)
     {
@@ -31,11 +27,14 @@ public class ToDo : BaseOwnedEntity<int, User>
             {
                 this.Description = t.Description;
             }
+            if (t.IsCompleted != null)
+            {
+                this.IsCompleted = t.IsCompleted;
+            }
             if (t.DueDate != null)
             {
                 this.DueDate = t.DueDate;
             }
-            this.IsCompleted = t.IsCompleted;
         }
     }
 }

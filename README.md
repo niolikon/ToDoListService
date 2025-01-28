@@ -1,4 +1,5 @@
 # ToDoListService
+
 📚 **ToDoListService** is a simple Web API project designed to manage Personal Tasks as a ToDo list.
 This project demonstrates fundamental software development concepts such as BDD (Behavior-Driven Development), unit testing, and clean architecture principles.
 
@@ -12,6 +13,10 @@ This project demonstrates fundamental software development concepts such as BDD 
 - **Rest exceptions Management**: Centralize JSON error response management with middleware for better separation of concerns.
 
 ---
+
+## 📖 User Stories
+
+- ✅ [ToDo Marking](https://github.com/niolikon/ToDoListService/issues/1)
 
 ---
 
@@ -38,6 +43,28 @@ This project demonstrates fundamental software development concepts such as BDD 
 4. Run the project
    ```bash
    dotnet run
+   ```
+   
+### Deploy on container
+   
+1. Create build artifact
+   ```bash
+   dotnet publish ToDoListService.Api/ToDoListService.Api.csproj -c Development -o ./output
+   ```
+   
+2. Create project image
+   ```bash
+   docker build -t todolistservice-api:latest .
+   ```
+   
+3. Configure database password
+   ```bash
+   echo "SA_PASSWORD=YourStrong@Passw0rd" >.env
+   ```
+   
+4. Compose docker container
+   ```bash
+   docker-compose up -d
    ```
 
 ---
